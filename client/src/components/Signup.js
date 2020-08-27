@@ -14,7 +14,7 @@ const Signup = () => {
     email: "",
     password: "",
     passwordconfirm: "",
-    agreetermandser: false,
+    // agreetermandser: false,
     successMsg: false,
     errorMsg: false,
     loading: false,
@@ -25,7 +25,7 @@ const Signup = () => {
     email,
     password,
     passwordconfirm,
-    agreetermandser,
+    // agreetermandser,
     successMsg,
     errorMsg,
     loading,
@@ -89,6 +89,7 @@ const Signup = () => {
           setFormData({
             ...formData,
             loading: false,
+            errorMsg: err.response.data.errorMessage,
           });
         });
     }

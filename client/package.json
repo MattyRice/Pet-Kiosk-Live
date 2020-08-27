@@ -35,7 +35,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "morgan": "^1.10.0"
-  }
+  "proxy": "http://localhost:5000/"
 }
