@@ -1,21 +1,35 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
 import { showErrorMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
+import { setAuthentication, isAuthenticated } from "../helpers/auth";
 import isEmail from "validator/lib/isEmail";
 import isEmpty from "validator/lib/isEmpty";
 import { signin } from "../api/auth";
+import { set } from "mongoose";
+import { token } from "morgan";
 
 const Signin = () => {
+  let history = useHistory();
+
+  // IF user/admin is signed in and tries to go back to signin page
+  // THEN this redirects them back to their respective dashboards
+  useEffect(() => {
+    if (isAuthenticated() && isAuthenticated().role === 1) {
+      history.push("/admin/dashboard");
+    } else if (isAuthenticated() && isAuthenticated().role === 0) {
+      history.push("/user/dashboard");
+    }
+  }, [history]);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     errorMsg: false,
     loading: false,
-    redirectToDashboard: false,
   });
 
-  const { email, password, errorMsg, loading, redirectToDashboard } = formData;
+  const { email, password, errorMsg, loading } = formData;
 
   //EVENT HANDLERS
   const handleChange = (evt) => {
@@ -46,7 +60,21 @@ const Signin = () => {
 
       setFormData({ ...formData, loading: true });
 
-      signin(data);
+      signin(data)
+        .then((response) => {
+          setAuthentication(response.data.token, response.data.user);
+
+          if (isAuthenticated() && isAuthenticated().role === 1) {
+            console.log("Redirecting to admin dashboard");
+            history.push("/admin/dashboard");
+          } else {
+            console.log("Redirecting to user dashboard");
+            history.push("/user/dashboard");
+          }
+        })
+        .catch((err) => {
+          console.log("Signin api function error", err);
+        });
     }
   };
 
@@ -82,7 +110,7 @@ const Signin = () => {
               </span>
             </div>
             <input
-              type="text"
+              type="password"
               className="form-control"
               name="password"
               value={password}

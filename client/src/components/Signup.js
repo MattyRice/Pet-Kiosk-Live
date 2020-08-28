@@ -1,13 +1,26 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
 import isEmail from "validator/lib/isEmail";
 import equals from "validator/lib/equals";
 import isEmpty from "validator/lib/isEmpty";
+import { isAuthenticated } from "../helpers/auth";
 import { showErrorMsg, showSuccessMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
 import { signup } from "../api/auth";
 
 const Signup = () => {
+  // IF user/admin is signed in and tries to go back to signin page
+  // THEN this redirects them back to their respective dashboards
+
+  let history = useHistory();
+  useEffect(() => {
+    if (isAuthenticated() && isAuthenticated().role === 1) {
+      history.push("/admin/dashboard");
+    } else if (isAuthenticated() && isAuthenticated().role === 0) {
+      history.push("/user/dashboard");
+    }
+  }, [history]);
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -145,7 +158,7 @@ const Signup = () => {
               </span>
             </div>
             <input
-              type="text"
+              type="password"
               className="form-control"
               name="password"
               value={password}
@@ -164,7 +177,7 @@ const Signup = () => {
               </span>
             </div>
             <input
-              type="text"
+              type="password"
               className="form-control"
               name="passwordconfirm"
               value={passwordconfirm}
