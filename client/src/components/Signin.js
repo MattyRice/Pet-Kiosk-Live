@@ -19,6 +19,8 @@ const Signin = () => {
       history.push("/admin/dashboard");
     } else if (isAuthenticated() && isAuthenticated().role === 0) {
       history.push("/user/dashboard");
+    } else if (isAuthenticated() && isAuthenticated().role === 2) {
+      history.push("/wholesale/dashboard");
     }
   }, [history]);
 
@@ -67,9 +69,12 @@ const Signin = () => {
           if (isAuthenticated() && isAuthenticated().role === 1) {
             console.log("Redirecting to admin dashboard");
             history.push("/admin/dashboard");
-          } else {
+          } else if (isAuthenticated() && isAuthenticated().role === 0) {
             console.log("Redirecting to user dashboard");
             history.push("/user/dashboard");
+          } else if (isAuthenticated() && isAuthenticated().role === 2) {
+            console.log("Redirecting to user dashboard");
+            history.push("/wholesale/dashboard");
           }
         })
         .catch((err) => {

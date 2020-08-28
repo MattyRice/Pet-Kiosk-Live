@@ -69,6 +69,24 @@ const Header = () => {
           </Fragment>
         )}
 
+        {/* WHOLESALE NAVBAR */}
+        {isAuthenticated() && isAuthenticated().role === 2 && (
+          <Fragment>
+            <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+              <li className="nav-item">
+                <Link to="/user/dashboard" className="nav-link">
+                  wholesale User Dashboard
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="#" className="nav-link">
+                  Category2
+                </Link>
+              </li>
+            </ul>
+          </Fragment>
+        )}
+
         {/* ADMIN DASHBOARD */}
         {isAuthenticated() && isAuthenticated().role === 1 && (
           <Fragment>

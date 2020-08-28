@@ -8,6 +8,7 @@ import NotFound from "./NotFound";
 import "./App.css";
 import UserDashboard from "./UserDashboard";
 import AdminDashboard from "./AdminDashboard";
+import WholesaleDashboard from "./WholesaleDashboard";
 
 const App = () => (
   <BrowserRouter>
@@ -19,6 +20,12 @@ const App = () => (
         <Route exact path="/signin" component={Signin} />
         <Route exact path="/user/dashboard" component={UserDashboard} />
         <Route exact path="/admin/dashboard" component={AdminDashboard} />
+        <Route
+          exact
+          path="/wholesale/dashboard"
+          component={WholesaleDashboard}
+        />
+
         <Route component={NotFound} />
       </Switch>
     </main>
