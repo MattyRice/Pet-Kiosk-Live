@@ -73,7 +73,7 @@ const Signin = () => {
             console.log("Redirecting to user dashboard");
             history.push("/user/dashboard");
           } else if (isAuthenticated() && isAuthenticated().role === 2) {
-            console.log("Redirecting to user dashboard");
+            console.log("Redirecting to wholesale dashboard");
             history.push("/wholesale/dashboard");
           }
         })

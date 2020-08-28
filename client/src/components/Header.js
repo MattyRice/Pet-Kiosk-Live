@@ -1,9 +1,15 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
-import { isAuthenticated } from "../helpers/auth";
+import { isAuthenticated, logout } from "../helpers/auth";
 
-const Header = () => {
+const Header = ({ history }) => {
+  const handleLogout = (evt) => {
+    logout(() => {
+      history.push("/");
+    });
+  };
+
   //views
   const showNavigation = () => (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -109,9 +115,13 @@ const Header = () => {
           <Fragment>
             <ul className="navbar-nav ml-auto mt-0 mt-lg-0">
               <li className="nav-item">
-                <Link to="/signup" className="nav-link">
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary my-2 my-sm-0"
+                  onClick={handleLogout}
+                >
                   Logout
-                </Link>
+                </button>
               </li>
             </ul>
           </Fragment>

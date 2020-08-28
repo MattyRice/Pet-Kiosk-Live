@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isAuthenticated = exports.setAuthentication = void 0;
+exports.logout = exports.isAuthenticated = exports.setAuthentication = void 0;
 
 var _cookies = require("./cookies");
 
@@ -25,3 +25,11 @@ var isAuthenticated = function isAuthenticated() {
 };
 
 exports.isAuthenticated = isAuthenticated;
+
+var logout = function logout(next) {
+  (0, _cookies.deleteCookie)("token");
+  (0, _localStorage.deleteLocalStorage)("user");
+  next();
+};
+
+exports.logout = logout;
