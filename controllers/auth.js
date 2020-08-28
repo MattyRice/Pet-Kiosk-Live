@@ -1,13 +1,16 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { jwtSecret, jwtExpire } = require("../config/key");
 
 exports.signupController = async (req, res) => {
   const { username, email, password } = req.body;
   try {
-    const user = await User.findOne({ email });
-    if (user) {
+    const user = await User.findOne({ username });
+    const emailAddress = await User.findOne({ email });
+    if (user || emailAddress) {
       return res.status(400).json({
-        errorMessage: "Email already exists",
+        errorMessage: "Account already exists",
       });
     }
 
@@ -25,6 +28,51 @@ exports.signupController = async (req, res) => {
     });
   } catch (err) {
     console.log("signupController error: ", err);
+    res.status(500).json({
+      errorMessage: "Server error",
+    });
+  }
+};
+
+exports.signinController = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({
+        errorMessage: "Invalid credentials",
+      });
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({
+        errorMessage: "Invalid Credentials",
+      });
+    }
+
+    //PREP PAYLOAD
+    const payload = {
+      user: {
+        _id: user._id,
+      },
+    };
+
+    await jwt.sign(
+      payload,
+      jwtSecret,
+      { expiresIn: jwtExpire },
+      (err, token) => {
+        const { _id, username, email, role } = user;
+
+        res.json({
+          token,
+          user: { _id, username, email, role },
+        });
+      }
+    );
+  } catch (err) {
+    console.log("signinController error: ", err);
     res.status(500).json({
       errorMessage: "Server error",
     });

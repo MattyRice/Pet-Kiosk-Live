@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./style.css";
 import { Link } from "react-router-dom";
 import isEmail from "validator/lib/isEmail";
 import equals from "validator/lib/equals";
@@ -203,7 +202,7 @@ const Signup = () => {
       {loading && (
         <div className="text-center pt-5">
           {showLoading()}
-          <p>Getting your account ready...</p>
+          <p>Making your Account...</p>
         </div>
       )}
 
