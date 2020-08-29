@@ -9,6 +9,9 @@ import "./App.css";
 import UserDashboard from "./UserDashboard";
 import AdminDashboard from "./AdminDashboard";
 import WholesaleDashboard from "./WholesaleDashboard";
+import AdminRoute from "./AdminRoute";
+import WholesaleRoute from "./WholesaleRoute";
+import UserRoute from "./UserRoute";
 
 const App = () => (
   <BrowserRouter>
@@ -18,9 +21,9 @@ const App = () => (
         <Route exact path="/" component={Home} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/signin" component={Signin} />
-        <Route exact path="/user/dashboard" component={UserDashboard} />
-        <Route exact path="/admin/dashboard" component={AdminDashboard} />
-        <Route
+        <UserRoute exact path="/user/dashboard" component={UserDashboard} />
+        <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
+        <WholesaleRoute
           exact
           path="/wholesale/dashboard"
           component={WholesaleDashboard}

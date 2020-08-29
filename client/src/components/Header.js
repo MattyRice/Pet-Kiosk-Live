@@ -108,6 +108,7 @@ const Header = ({ history }) => {
                 </Link>
               </li>
             </ul>
+            <ul className="navbar-nav ml-auto mt-0 mt-lg-0"></ul>
           </Fragment>
         )}
 

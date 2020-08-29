@@ -1,3 +1,9 @@
+html * {
+  font-family: 'Nunito', sans-serif;
+}
+
+
+
 /* Sign Up */
 .form-control {
   font-size: 15px;
@@ -106,4 +112,7 @@
   position: absolute;
 }
 
-/* error form */
+/* Admin Dashboard */
+/* #dashboardIcon {
+  line-height: initial;
+} */

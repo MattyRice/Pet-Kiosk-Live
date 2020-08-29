@@ -1,7 +1,8 @@
 import React from "react";
+import CarouselPage from "./CarouselPage";
 
 const Home = () => {
-  return <p>Inside Home Component</p>;
+  return <CarouselPage />;
 };
 
 export default Home;

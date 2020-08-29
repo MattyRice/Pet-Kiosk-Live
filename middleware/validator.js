@@ -9,10 +9,8 @@ exports.signupValidator = [
 ];
 
 exports.signinValidator = [
-  check("email").isEmail().normalizeEmail().withMessage("Invalid email"),
-  check("password")
-    .isLength({ min: 6 })
-    .withMessage("Password must be at least 6 characters long"),
+  check("email").isEmail().normalizeEmail().withMessage("Invalid Credentials"),
+  check("password").isLength({ min: 6 }).withMessage("Invalid Credentials"),
 ];
 
 exports.validatorResult = (req, res, next) => {
