@@ -6,12 +6,6 @@ const { create } = require("../controllers/category");
 //   console.log("Inside signup controller");
 // });
 
-router.post(
-  "/category/create",
-  signupValidator,
-  validatorResult,
-  signupController
-);
-router.post("/signin", signinValidator, validatorResult, signinController);
+router.post("/category/create", create);
 
 module.exports = router;

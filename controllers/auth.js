@@ -78,3 +78,21 @@ exports.signinController = async (req, res) => {
     });
   }
 };
+
+exports.isAuth = (req, res, next) => {
+  let user = req.profile && req.auth && req.profile._id == req.auth._id;
+  if (!user) {
+    return res.status(403).json({
+      errorMessage: "Access Denied",
+    });
+  }
+};
+
+exports.isAdmin = (req, res, next) => {
+  if (req.profile.role === 0) {
+    return res.status(403).json({
+      errorMessage: "Not Admin. Access Denied",
+    });
+  }
+  next();
+};
