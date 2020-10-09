@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const morgan = require("morgan");
-const connectDB = require("./database/db");
+const connectDB = require("./database/database.js");
 const authRoutes = require("./routes/auth");
 const categoryRoutes = require("./routes/category");
 

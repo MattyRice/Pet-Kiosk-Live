@@ -6,6 +6,7 @@ const { jwtSecret, jwtExpire } = require("../config/key");
 exports.signupController = async (req, res) => {
   const { username, email, password } = req.body;
   try {
+    //Checks if existing user exists in database with the same credentials
     const user = await User.findOne({ username });
     const emailAddress = await User.findOne({ email });
     if (user || emailAddress) {
@@ -14,10 +15,12 @@ exports.signupController = async (req, res) => {
       });
     }
 
+    //New user is created
     const newUser = new User();
     newUser.username = username;
     newUser.email = email;
 
+    //Password hashing
     const salt = await bcrypt.genSalt(10);
     newUser.password = await bcrypt.hash(password, salt);
 
@@ -79,6 +82,7 @@ exports.signinController = async (req, res) => {
   }
 };
 
+//Checks if user is an authorized registered user
 exports.isAuth = (req, res, next) => {
   let user = req.profile && req.auth && req.profile._id == req.auth._id;
   if (!user) {
@@ -88,6 +92,7 @@ exports.isAuth = (req, res, next) => {
   }
 };
 
+//Check if a user is an admin role (role=2 in db)
 exports.isAdmin = (req, res, next) => {
   if (req.profile.role === 0) {
     return res.status(403).json({
