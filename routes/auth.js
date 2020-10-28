@@ -5,22 +5,7 @@ const {
   signinValidator,
   validatorResult,
 } = require("../middleware/validator");
-const {
-  signupController,
-  signinController,
-  isAuth,
-  isAdmin,
-} = require("../controllers/auth");
-
-// router.post("/signup", (req, res) => {
-//   console.log("Inside signup controller");
-// });
-
-// router.get("/secret/:_id", signinValidator, isAuth, (req, res) => {
-//   res.json({
-//     user: req.profile,
-//   });
-// });
+const { signupController, signinController } = require("../controllers/auth");
 
 router.post("/signup", signupValidator, validatorResult, signupController);
 router.post("/signin", signinValidator, validatorResult, signinController);
