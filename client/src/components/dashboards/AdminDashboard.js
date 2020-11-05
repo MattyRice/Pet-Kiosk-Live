@@ -20,7 +20,11 @@ const AdminDashboard = () => {
     <MDBContainer>
       <MDBRow className="py-3">
         <MDBCol>
-          <MDBBtn color="primary">
+          <MDBBtn
+            color="primary"
+            data-toggle="modal"
+            data-target="#addCategoryModal"
+          >
             <MDBIcon icon="plus-circle" className="" /> Add Category
           </MDBBtn>
         </MDBCol>
@@ -38,12 +42,48 @@ const AdminDashboard = () => {
     </MDBContainer>
   );
 
+  const showCategoryModal = () => (
+    <div className="modal" id="addCategoryModal">
+      <div className="modal-dialog modal-dialog-centered modal-lg">
+        <div className="modal-content">
+          <div className="modal-header bg-info text-white">
+            <h4 className="modal-title font-weight-bold">Add Category</h4>
+            <button className="close" data-dismiss="modal">
+              <MDBIcon icon="times"></MDBIcon>
+            </button>
+          </div>
+          <div className="modal-body">
+            <form>
+              <label htmlFor="defaultFormContactNameEx" className="grey-text">
+                Category
+              </label>
+              <input
+                type="text"
+                id="defaultFormContactNameEx"
+                className="form-control"
+              />
+            </form>
+          </div>
+          <div className="modal-footer">
+            <div className="text-right mt-1">
+              <MDBBtn color="warning" outline type="submit">
+                Submit
+                <MDBIcon far icon="paper-plane" className="ml-2" />
+              </MDBBtn>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   //RENDER
 
   return (
     <section>
       {showHeader()}
       {showActionBtns()}
+      {showCategoryModal()}
     </section>
   );
 };
