@@ -1,19 +1,48 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { MDBBtn, MDBIcon, MDBContainer, MDBRow, MDBCol } from "mdbreact";
-import { createCategory } from "../../api/category";
+import isEmpty from "validator/lib/isEmpty";
+import { showErrorMsg, showSuccessMsg } from "../../helpers/message";
+import { showLoading } from "../../helpers/loading";
+import { createCategory } from "./../../api/category";
 
 const AdminDashboard = () => {
   const [category, setCategory] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   //EVENT HANDLERS
+  const handleMessages = (evt) => {
+    setErrorMsg("");
+    setSuccessMsg("");
+  };
+
   const handleCategoryChange = (evt) => {
+    setErrorMsg("");
+    setSuccessMsg("");
     setCategory(evt.target.value);
   };
 
   const handleCategorySubmit = (evt) => {
     evt.preventDefault();
-    const data = { category };
-    createCategory(data);
+
+    if (isEmpty(category)) {
+      setErrorMsg("Please enter a category");
+    } else {
+      const data = { category };
+
+      setLoading(true);
+
+      createCategory(data)
+        .then((response) => {
+          setLoading(false);
+          setSuccessMsg(response.data.successMessage);
+        })
+        .catch((err) => {
+          setLoading(false);
+          setErrorMsg(err.response.data.errorMessage);
+        });
+    }
   };
   // VIEWS
 
@@ -56,7 +85,7 @@ const AdminDashboard = () => {
   );
 
   const showCategoryModal = () => (
-    <div className="modal" id="addCategoryModal">
+    <div className="modal" id="addCategoryModal" onClick={handleMessages}>
       <div className="modal-dialog modal-dialog-centered modal-lg">
         <div className="modal-content">
           <form onSubmit={handleCategorySubmit}>
@@ -67,17 +96,29 @@ const AdminDashboard = () => {
               </button>
             </div>
             <div className="modal-body">
-              <label htmlFor="defaultFormContactNameEx" className="grey-text">
-                Category
-              </label>
-              <input
-                type="text"
-                id="defaultFormContactNameEx"
-                className="form-control"
-                name="category"
-                value={category}
-                onChange={handleCategoryChange}
-              />
+              {errorMsg && showErrorMsg(errorMsg)}
+              {successMsg && showSuccessMsg(successMsg)}
+
+              {loading ? (
+                <div className="text-center mt-3">{showLoading()}</div>
+              ) : (
+                <Fragment>
+                  <label
+                    htmlFor="defaultFormContactNameEx"
+                    className="grey-text"
+                  >
+                    Category
+                  </label>
+                  <input
+                    type="text"
+                    id="defaultFormContactNameEx"
+                    className="form-control"
+                    name="category"
+                    value={category}
+                    onChange={handleCategoryChange}
+                  />
+                </Fragment>
+              )}
             </div>
             <div className="modal-footer">
               <div className="text-right mt-1">

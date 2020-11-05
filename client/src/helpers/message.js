@@ -2,7 +2,7 @@ import React from "react";
 
 export const showErrorMsg = (msg) => (
   <div
-    className="alert alert-danger col-lg-3 col-md-5 col-sm-12 mx-auto mt-4 mb-1"
+    className="alert alert-danger col-lg-5 col-md-5 col-sm-12 mx-auto mt-4 mb-1 text-center"
     role="alert"
   >
     {msg}
